@@ -39,12 +39,16 @@ public class IndexController {
     public String hello(HttpServletRequest request) {
 //        model.addAttribute("name",name);
         Cookie[] cookies = request.getCookies();
+        if (cookies==null){
+            return "index";
+        }
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")) {
+            //if (cookie.getName().equals("token")) {
+            if ("token".equals(cookie.getName())) {
                 String token = cookie.getValue();
                 User user = userMapper.findByToken(token);
-                if (user!=null){
-                    request.getSession().setAttribute("user",user);
+                if (user != null) {
+                    request.getSession().setAttribute("user", user);
                 }
                 break;
             }
